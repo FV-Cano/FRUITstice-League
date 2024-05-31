@@ -101,7 +101,6 @@ func DisplayMenu() {
 	fmt.Println("1. Agregar Producto")
 	fmt.Println("2. Modificar Producto")
 	fmt.Println("3. Eliminar Producto")
-	fmt.Println("")
 	fmt.Println("4. Ver Inventario")
 	fmt.Println("5. Registrar Venta")
 	fmt.Println("6. Generar Reporte")
@@ -140,7 +139,7 @@ func printDivider(width int) {
 * @desc: Limpia la terminal
  */
 func ClearTerminal() {
-	cmd := exec.Command("clear")
+	cmd := exec.Command("cmd", "/c", "cls")
 	cmd.Stdout = os.Stdout
 	cmd.Run()
 }
