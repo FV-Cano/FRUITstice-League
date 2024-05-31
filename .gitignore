@@ -2,8 +2,7 @@
 # https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
 #
 # Binaries for programs and plugins
-*.exe
-*.exe~
+
 *.dll
 *.so
 *.dylib
@@ -18,5 +17,12 @@
 # vendor/
 
 # Go workspace file
-go.work
-go.work.sum
+
+# env file
+.env
+
+# Inventory file
+utils/inventory/inventory.json
+
+# Report file
+app/report.pdf
