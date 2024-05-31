@@ -158,6 +158,12 @@ func RegisterSale(clientName string, productName string, quantity int) {
 	fmt.Println("Error: No se encontró la fruta.")
 }
 
+/**
+* @desc: Filtra según el tipo de reporte y obtiene los datos necesarios para armarlo
+
+* @param reportType: tipo de reporte
+* @return: slice de strings, slice de structs de tipo "Fruit", float64
+*/
 func GetDataForReport(reportType string) ([]string, []globals.Fruit, float64){
 	var filteredSales []globals.Sale
 	switch reportType {
@@ -176,23 +182,37 @@ func GetDataForReport(reportType string) ([]string, []globals.Fruit, float64){
 	return mostSales, lowStock, totalIncome
 }
 
+/**
+* @desc: Determina si una venta fue realizada el día de hoy
+*/
 func isSaleDaily(sale globals.Sale) bool {
 	return sale.SaleDate.Format("2006-01-02") == globals.Today.Format("2006-01-02")
 }
 
+/**
+* @desc: Determina si una venta fue realizada en la última semana (7 días atrás) y hoy
+*/
 func isSaleWeekly(sale globals.Sale) bool {
 	return sale.SaleDate.After(globals.Week) && sale.SaleDate.Before(globals.Today.AddDate(0, 0, 1))
 }
 
+/**
+* @desc: Determina si una venta fue realizada en el último mes (30 días atrás) y hoy
+*/
 func isSaleMonthly(sale globals.Sale) bool {
 	return sale.SaleDate.After(globals.Month) && sale.SaleDate.Before(globals.Today.AddDate(0, 0, 1))
 }
 
+/**
+* @desc: Obtiene los 3 productos más vendidos, sin repetir
+
+* @param sales: slice de structs de tipo "Sale"
+* @return: slice de strings
+*/
 func mostSelledProducts(sales []globals.Sale) []string {
 	sort.Sort(slice.ByPrice(sales))
 
 	var products []string
-	// Take the first 3 most selled products, non-repeated
 	for _, sale := range sales {
 		if len(products) == 3 {
 			break
@@ -205,10 +225,22 @@ func mostSelledProducts(sales []globals.Sale) []string {
 	return products 		
 }
 
+/**
+* @desc: Determina si una fruta tiene un stock menor al límite establecido
+
+* @param fruit: struct de tipo "Fruit"
+* @return: booleano
+*/
 func isLowStock(fruit globals.Fruit) bool {
 	return fruit.Stock < globals.LowStock
 }
 
+/**
+* @desc: Obtiene el ingreso total de las ventas según el tipo de reporte
+
+* @param sales: slice de structs de tipo "Sale"
+* @return: float64
+*/
 func getTotalIncome(sales []globals.Sale) float64 {
 	var total float64
 	for _, sale := range sales {
@@ -217,6 +249,12 @@ func getTotalIncome(sales []globals.Sale) float64 {
 	return total
 }
 
+/**
+* @desc: Crea un reporte en formato PDF según el tipo de reporte
+
+* @param reportType: tipo de reporte
+* @return: error (si hubiese)
+*/
 func CreateReport(reportType string) error {
 	mostSales, lowStock, totalIncome := GetDataForReport(reportType)
 
