@@ -165,6 +165,9 @@ func newSale(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Venta registrada"))
 }
 
+/**
+* @desc: Request para generar un reporte
+*/
 func genReport(w http.ResponseWriter, r *http.Request) {
 	// Decodificar la solicitud
 	var reportReq globals.ReportRequest
